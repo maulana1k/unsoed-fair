@@ -31,6 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:10.4.14"],\
             ["next", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:13.4.3"],\
             ["postcss", "npm:8.4.23"],\
+            ["prisma", "npm:4.14.1"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:18.2.0"],\
             ["tailwindcss", "npm:3.3.2"]\
@@ -252,6 +253,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@npmcli/move-file", "npm:2.0.1"],\
             ["mkdirp", "npm:1.0.4"],\
             ["rimraf", "npm:3.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@prisma/engines", [\
+        ["npm:4.14.1", {\
+          "packageLocation": "./.yarn/unplugged/@prisma-engines-npm-4.14.1-67f3739a49/node_modules/@prisma/engines/",\
+          "packageDependencies": [\
+            ["@prisma/engines", "npm:4.14.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1710,6 +1720,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["prisma", [\
+        ["npm:4.14.1", {\
+          "packageLocation": "./.yarn/unplugged/prisma-npm-4.14.1-1934ee9b75/node_modules/prisma/",\
+          "packageDependencies": [\
+            ["prisma", "npm:4.14.1"],\
+            ["@prisma/engines", "npm:4.14.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["promise-inflight", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/promise-inflight-npm-1.0.1-5bb925afac-2274948309.zip/node_modules/promise-inflight/",\
@@ -2195,6 +2215,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:10.4.14"],\
             ["next", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:13.4.3"],\
             ["postcss", "npm:8.4.23"],\
+            ["prisma", "npm:4.14.1"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:6fb0543211f079aa9c90ac8d9c608de73035d652aa12555840ee8cfb945cbbe8e565a0ed99efa25646ff95bf58b52007332b3ed4f6e92bf7761308ed95c6e474#npm:18.2.0"],\
             ["tailwindcss", "npm:3.3.2"]\

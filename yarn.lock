@@ -185,6 +185,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines@npm:4.14.1":
+  version: 4.14.1
+  resolution: "@prisma/engines@npm:4.14.1"
+  checksum: 9c6af9b98303b408b667b69653fd7b2eaa2c28775cf4c2559c51e3dfa161b4104deb41222d3b2fc33fd28ab255a633a9a9c0234d2d5b2b031f9fc1e715befc83
+  languageName: node
+  linkType: hard
+
 "@swc/helpers@npm:0.5.1":
   version: 0.5.1
   resolution: "@swc/helpers@npm:0.5.1"
@@ -1437,6 +1444,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prisma@npm:^4.14.1":
+  version: 4.14.1
+  resolution: "prisma@npm:4.14.1"
+  dependencies:
+    "@prisma/engines": 4.14.1
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: 2cb0085652b541aa4c855f1434083b6fc0f3df5be28a0558fe2e1b120546b95d114177f86641fa9e21e13fb3a27a48e8cfd240d683a9e8e872b72e2c8c61a7e2
+  languageName: node
+  linkType: hard
+
 "promise-inflight@npm:^1.0.1":
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
@@ -1854,6 +1873,7 @@ __metadata:
     autoprefixer: 10.4.14
     next: 13.4.3
     postcss: 8.4.23
+    prisma: ^4.14.1
     react: 18.2.0
     react-dom: 18.2.0
     tailwindcss: 3.3.2
