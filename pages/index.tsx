@@ -117,12 +117,90 @@ export default function Home() {
   return (
     <div>
       {session.data ? (
-        <div>
-          <h1>Welcome, {session.data.user?.name}</h1>
-          <p>Email: {session.data.user?.email}</p>
+        <>
+        <nav className="bg-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/">
+              <a className="text-white font-semibold text-lg">Web Name</a>
+            </Link>
+          </div>
+          <div className="flex">
+            <Link href="/jobs">
+              <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Jobs</a>
+            </Link>
+            <Link href="/events">
+              <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Events</a>
+            </Link>
+          </div>
         </div>
+      </div>
+    </nav>
+        </>
       ) : (
-        <Welcome />
+        // <Welcome />
+        <>
+        <nav className="bg-blue-800 py-2">
+      <div className="container mx-auto justify-between px-4 flex">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center">
+            <Link href="/"className="text-white text-xl font-semibold">Unsoed-Fair
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <ul className="flex space-x-4">
+              <li>
+                <Link href="/jobs"className="text-white hover:text-gray-300">Jobs
+                </Link>
+              </li>
+              <li>
+                <Link href="/event"className="text-white hover:text-gray-300">Event
+                </Link>
+              </li>
+              </ul>
+        </div>
+      </div>
+      <div className="flex items-center space-x-4">
+          <div className="flex items-center">
+            <button type="button" className="ant-btn ant-btn-default ant-dropdown-trigger m-0 !border-none !bg-transparent p-0 !shadow-none !outline-none after:!content-none">
+              <div className="relative flex flex-shrink-0 cursor-pointer items-end justify-center overflow-hidden rounded-full h-[34px] max-h-[34px] w-[34px] max-w-[34px] border border-neutral-100 bg-violet-900">
+                  <img src="https://id-static.z-dn.net/files/da1/52dae37cdd8241b264efb8468868ba99.jpg" alt="Avatar Pengguna" />
+              </div>
+            </button>
+          </div>
+      </div>
+      </div>
+    </nav>
+    <main className='relative bg-blue-800'>
+      <div className='relative bg-tertiary-violet-50 pt-12 lg:pt-0' id="jumbotron-homepage">
+        <div className="absolute top-0 left-0 z-10 -mt-2"></div>
+        <div className='absolute bottom-0 right-0'></div>
+        <div>
+          <div className='flex justify-center'>
+            <div className='w-full max-w-[1440px] px-4 md:px-[43px] flex justify-center pb-7 pt-9 lg:pt-[94px] lg:pb-[42px]'>
+              <div className='w-full xl:w-[1162px]'>
+                <div className='md:min-h-[80px]'>
+                  <div className='relative z-[60]'>
+                    <div>
+                      <p className="text-[28px]  font-bold lg:text-[34px]">
+                        <span className="GreetingText_greeting_text--shadow-stroke___dmLY">
+                          <span className="text-white">Welcome,</span>
+                          <span className="capitalize text-[#FEE156]">Tiannn</span>
+                        </span>
+                        <span className="GreetingText_greeting_text--shadow__oFmha">👌</span>
+                      </p>
+                      <p className="mt-[6px] text-base leading-[22.4px] text-white lg:text-lg lg:leading-[130%]">Ready to Uplift Your Career?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+        </>
       )}
     </div>
   )
