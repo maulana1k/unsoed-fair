@@ -1,12 +1,11 @@
-import { useContext, useState } from 'react'
-import Router from 'next/router'
-import Link from 'next/link'
 import axios from 'axios'
+import Link from 'next/link'
+import Router from 'next/router'
+import React, { useContext, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-
 import { AppContext } from '../lib/context'
 
-export default function LoginPage() {
+export default function LoginCompany() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -15,11 +14,9 @@ export default function LoginPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      const result = await axios.post('/api/auth/login', { email, password, role: 'user' })
-      // console.log('login ', result.data)
-
+      const result = await axios.post('/api/auth/login', { email, password, role: 'employer' })
       ctx.updateUser(result.data.user)
-      Router.push('/jobs')
+      Router.push('/jobsCompany')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
@@ -28,7 +25,8 @@ export default function LoginPage() {
   }
 
   if (!ctx.loading && ctx.user) {
-    Router.push('/jobs')
+    Router.push('/jobsCompany')
+    return
   }
   if (!ctx.loading) {
     return (
@@ -36,7 +34,7 @@ export default function LoginPage() {
         <div className="max-w-sm w-full space-y-6">
           <div className="space-y-2">
             <h2 className="mt-6 text-xl font-bold text-gray-900">Sign In</h2>
-            <div className="text-sm text-gray-500">Find and get your dream job</div>
+            <div className="text-sm text-gray-500">Hire currated talent for your company</div>
           </div>
           <form className=" space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
@@ -52,7 +50,7 @@ export default function LoginPage() {
                   autoComplete="email"
                   required
                   className="bg-gray-50 rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-violet-500 hover:border-violet-500 focus:z-10 sm:text-sm"
-                  placeholder="Email"
+                  placeholder="Company Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

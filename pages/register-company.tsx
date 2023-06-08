@@ -1,22 +1,20 @@
-import { useContext, useState } from 'react'
-import Router, { useRouter } from 'next/router'
 import axios from 'axios'
 import Link from 'next/link'
+import Router from 'next/router'
+import React, { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { AppContext } from '../lib/context'
 
-export default function Register() {
+export default function RegisterCompany() {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const ctx = useContext(AppContext)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      const result = await axios.post('/api/auth/register', { fullname, email, password })
-      ctx.updateUser(result.data.user)
+      const result = await axios.post('/api/auth/register', { fullname, email, password, role: 'employer' })
+      localStorage.setItem('unsoedfair-user', JSON.stringify(result.data.user))
       Router.push('/')
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -29,15 +27,15 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-4">
         <div className="space-y-1">
-          <h2 className="mt-6  text-xl font-bold text-gray-900">Create an account</h2>
-          <div className="text-sm text-gray-500">Take your seat to jobfair</div>
+          <h2 className="mt-6  text-xl font-bold text-gray-900">Join Our Portal</h2>
+          <div className="text-sm text-gray-500">Build your dream team here</div>
         </div>
         <form className=" space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="fullname" className="font-medium">
-                Fullname
+                Company
               </label>
               <input
                 id="fullname"
@@ -46,7 +44,7 @@ export default function Register() {
                 autoComplete="fullname"
                 required
                 className="bg-gray-50 rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-violet-500 hover:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Fullname"
+                placeholder="Company name"
                 value={fullname}
                 onChange={(e) => setFullname(e.target.value)}
               />
@@ -62,7 +60,7 @@ export default function Register() {
                 autoComplete="email"
                 required
                 className="bg-gray-50 rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-violet-500 hover:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Email"
+                placeholder="Company email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
