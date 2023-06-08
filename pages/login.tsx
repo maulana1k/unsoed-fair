@@ -1,25 +1,25 @@
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { useContext, useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import { FcGoogle } from 'react-icons/fc'
 
-import { useUser } from '../lib/useUser'
+import { AppContext } from '../lib/context'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [user, loading] = useUser()
-  console.log(loading)
+  const ctx = useContext(AppContext)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      const result = await axios.post('/api/auth/login', { email, password })
-      localStorage.setItem('unsoedfair-user', JSON.stringify(result.data.user))
-      Router.push('/')
+      const result = await axios.post('/api/auth/login', { email, password, role: 'user' })
+      // console.log('login ', result.data)
+
+      ctx.updateUser(result.data.user)
+      Router.push('/jobs')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
@@ -27,10 +27,10 @@ export default function LoginPage() {
     }
   }
 
-  if (!loading && user) {
-    Router.push('/')
+  if (!ctx.loading && ctx.user) {
+    Router.push('/jobs')
   }
-  if (!loading) {
+  if (!ctx.loading) {
     return (
       <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-sm w-full space-y-6">

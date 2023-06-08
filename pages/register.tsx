@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
+import Router, { useRouter } from 'next/router'
 import axios from 'axios'
 import Link from 'next/link'
 import { FcGoogle } from 'react-icons/fc'
+import { AppContext } from '../lib/context'
 
 export default function Register() {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-
-  const router = useRouter()
+  const ctx = useContext(AppContext)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
       const result = await axios.post('/api/auth/register', { fullname, email, password })
-      localStorage.setItem('unsoedfair-user', JSON.stringify(result.data.user))
-      router.push('/')
+      ctx.updateUser(result.data.user)
+      Router.push('/')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
