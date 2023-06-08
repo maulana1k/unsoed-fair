@@ -11,8 +11,10 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@prisma/client": "^4.14.1",
+    "@types/bcryptjs": "^2.4.2",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
     "firebase": "^9.22.1",
     "next": "13.4.3",
     "next-auth": "^4.22.1",
