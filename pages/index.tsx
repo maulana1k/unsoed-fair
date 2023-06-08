@@ -2,21 +2,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { IUser, useUser } from '../lib/useUser'
 import Router from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Menu } from '@headlessui/react'
+import { AppContext } from '../lib/context'
 
-export default function Home() {
+export function Home() {
   const [user, loading] = useUser()
   if (!loading) {
     if (!user) {
       Router.push('login')
+      return
     }
-    return <Jobs user={(user as IUser).fullname} />
+    return <Jobs />
   }
 }
-function Jobs({ user }: { user: string }) {
+function Jobs() {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const ctx = useContext(AppContext)
+  console.log(ctx.user)
 
   const changeNav = () => {
     window.scrollY >= 90 ? setScrolled(true) : setScrolled(false)
@@ -28,6 +32,10 @@ function Jobs({ user }: { user: string }) {
       window.removeEventListener('scroll', changeNav)
     }
   }, [])
+  const logout = () => {
+    ctx.destroyUser()
+    return Router.push('/login')
+  }
   return (
     <div className="container h-full bg-violet-700">
       <nav
@@ -79,6 +87,7 @@ function Jobs({ user }: { user: string }) {
                 <Menu.Item>
                   {({ active }) => (
                     <button
+                      onClick={logout}
                       className={`${
                         active ? 'bg-violet-500 text-white' : 'text-gray-900'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -95,7 +104,7 @@ function Jobs({ user }: { user: string }) {
       <div className="max-w-[1200px] pt-24 mx-auto">
         <div className="text-4xl text-white font-semibold">
           Welcome,
-          <span className="text-yellow-400 "> {user}</span>
+          <span className="text-yellow-400 "> {ctx.user?.fullname}</span>
         </div>
       </div>
       <div className="bg-white rounded-t-[0px] mt-8 p-6 min-h-full">
@@ -142,7 +151,7 @@ function Jobs({ user }: { user: string }) {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-6 ">
+          <div className="grid grid-cols-3 gap-6 bg-gray-100s ">
             {Array(20)
               .fill(1)
               .map((v, i) => (
@@ -177,7 +186,7 @@ function Jobs({ user }: { user: string }) {
     </div>
   )
 }
-function Welcome() {
+export default function Welcome() {
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between p-24`}>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
