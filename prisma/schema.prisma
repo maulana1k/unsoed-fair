@@ -21,3 +21,27 @@ model User {
 
     @@map(name: "users")
 }
+
+model Job {
+    id         String  @id @default(cuid())
+    title      String
+    location   String
+    experience String
+    type       String
+    companyId  String
+    company    Company @relation(fields: [companyId], references: [id])
+
+    @@map(name: "jobs")
+}
+
+model Company {
+    id       String @id @default(cuid())
+    fullname String @unique
+    email    String @unique
+    password String
+    logo     String
+    location String
+    jobs     Job[]
+
+    @@map(name: "companies")
+}
