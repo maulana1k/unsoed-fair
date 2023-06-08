@@ -2,12 +2,22 @@
 
 import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
+import { ContextProvider } from '../lib/context'
 const inter = Inter({ subsets: ['latin'] })
 
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
+interface AppProps {
+  Component: React.ComponentType<any>
+  pageProps: {
+    session: any
+    [key: string]: any
+  }
+}
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
-      <Component {...pageProps} />
-    </main>
+    <ContextProvider>
+      <main className={inter.className}>
+        <Component {...pageProps} />
+      </main>
+    </ContextProvider>
   )
 }
