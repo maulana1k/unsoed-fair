@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.headline-text {
+  text-shadow: rgb(26, 26, 26) -1px -1px 0px, rgb(26, 26, 26) 1px -1px 0px, rgb(26, 26, 26) -1px 1px 0px,
+    rgb(26, 26, 26) 1px 1px 0px, rgb(0, 0, 0) 4px 4px 0px;
+}
+.card-shadow {
+  box-shadow: rgb(254, 225, 86) 12px 12px 0px, rgb(26, 26, 26) 12px 12px 0px 2.5px;
+}
