@@ -32,7 +32,7 @@ export default function Home() {
       return
     }
     return (
-      <div className="container h-full bg-violet-700">
+      <div className="h-full bg-violet-700">
         <nav
           className={`${
             scrolled ? 'bg-white shadow-md' : 'bg-violet-700'
