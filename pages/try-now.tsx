@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { BiSearchAlt, BiBriefcase } from 'react-icons/bi'
-
+import { BiSearchAlt, BiBriefcase, BiGroup } from 'react-icons/bi'
 export default function TryNow() {
   return (
     <div>
@@ -31,6 +30,18 @@ export default function TryNow() {
               <button className="rounded-full text-white bg-violet-800 text-sm font-bold py-2 px-4">Start Hire</button>
             </Link>
           </div>
+
+          <div className="flex flex-col justify-center items-center card-shadow rounded-md outline outline-black bg-white w-[250px] h-[250px] p-3 space-y-2">
+            <div className="text-xl font-bold">Organisation</div>
+            <div className="text-center text-xs font-medium ">I need a skillful hand to handling event</div>
+            <div className="my-3 text-violet-800">
+              <BiGroup size={70} />
+            </div>
+            <Link href={'/login-organisation'}>
+              <button className="rounded-full text-white bg-violet-800 text-sm font-bold py-2 px-4">Start Recruit</button>
+            </Link>
+          </div>
+
         </div>
       </div>
     </div>

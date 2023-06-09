@@ -6,6 +6,7 @@ import { useEffect, useState, useContext } from 'react'
 import { Menu } from '@headlessui/react'
 import { AppContext } from '@/lib/context'
 
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -24,15 +25,15 @@ export default function Home() {
   }, [])
   const logout = () => {
     ctx.destroyUser()
-    return Router.push('/login')
+    return Router.push('/login-company')
   }
   if (!ctx.loading) {
     if (!ctx.user) {
-      Router.push('/login')
+      Router.push('/login-company')
       return
     }
     return (
-      <div className="h-full bg-violet-700">
+      <div className="container h-full bg-violet-700">
         <nav
           className={`${
             scrolled ? 'bg-white shadow-md' : 'bg-violet-700'
@@ -46,8 +47,11 @@ export default function Home() {
               <Link href="/jobs" className="text-gray-300 hover:text-white">
                 Jobs
               </Link>
-              <Link href="/events" className="text-gray-300 hover:text-white">
-                Events
+              <Link href="/InternCompany" className="text-gray-300 hover:text-white">
+                Internship
+              </Link>
+              <Link href="/sponsorship" className="text-gray-300 hover:text-white">
+                Sponsorship
               </Link>
             </div>
           </div>
@@ -57,7 +61,7 @@ export default function Home() {
                 <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
                   <img
                     className="h-10 w-10 rounded-full object-cover"
-                    src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=900&t=st=1685117281~exp=1685117881~hmac=d6f13693c4cba098e4dc2d5239e6a23143a81a995da9401e3883a958876c5316"
+                    src="https://www.teknovidia.com/wp-content/uploads/2022/04/Logo-Shopee.jpg"
                     alt="Avatar"
                   />
                 </button>
@@ -67,7 +71,7 @@ export default function Home() {
                 <div className="px-1 py-1 ">
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href={'/profile'}>
+                      <Link href={'/profileCompany'}>
                         <button
                           className={`${
                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
@@ -105,48 +109,29 @@ export default function Home() {
           <div className="max-w-[1200px] mx-auto space-y-6 ">
             <div className="flex space-x-6">
               <Link href="/" className="text-lg text-gray-800 font-bold border-b-2 border-gray-800 py-2">
-                For You
+                My Job Vacancy
               </Link>
               <Link href="/" className="text-lg text-gray-500 font-medium  py-2 cursor-pointer">
-                Explore
+                Explore Job Fair
               </Link>
               <Link href="/" className="text-lg text-gray-500 font-medium  py-2 cursor-pointer">
-                Saved
+                Full Jobs
               </Link>
             </div>
             <div className="w-full flex space-x-2">
               <input
                 className="w-full border border-gray-300 rounded-lg py-1 px-4 outline-none focus:border-violet-500"
                 type="search"
-                placeholder="Search job by title or company"
+                placeholder="Search Job Vacancy Name"
               />
-              <div className="flex items-center border border-gray-300 rounded-lg">
-                <select className="p-2 bg-transparent border-none outline-none">
-                  <option value="">Job Type</option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </select>
-              </div>
-              <div className="flex items-center border border-gray-300 rounded-lg">
-                <select className="p-2 bg-transparent border-none outline-none">
-                  <option value="">City</option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </select>
-              </div>
-              <div className="flex items-center border border-gray-300 rounded-lg">
-                <select className="p-2 bg-transparent border-none outline-none">
-                  <option value="">Experience Level</option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </select>
+              <div className="w-full flex space-x-1">
+                <button className="flex items-center justify-center bg-green-500 text-white text-xs py-1 px-4 rounded-lg">
+                  New Vacancy
+                </button>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-6  ">
-              {Array(20)
+              {Array(5)
                 .fill(1)
                 .map((v, i) => (
                   <Link href={'/jobs/' + v + i} key={v + i}>
@@ -154,22 +139,27 @@ export default function Home() {
                       <div className="flex items-center mb-4">
                         <img
                           src={
-                            'http://mgt.unida.gontor.ac.id/wp-content/uploads/2021/09/1575050504675-logo-tokopedia-300x225.jpg'
+                            'https://www.teknovidia.com/wp-content/uploads/2022/04/Logo-Shopee.jpg'
                           }
                           alt="Company Logo"
                           className="w-10 h-10 rounded-full object-contain"
                         />
                         <div className="ml-3">
                           <h2 className="text-md font-bold">Software Engineer</h2>
-                          <p className="text-gray-600 text-sm">PT. Tokopedia</p>
+                          <p className="text-gray-600 text-sm">PT. Shopee</p>
                         </div>
                       </div>
                       <div className="flex flex-col mb-2">
                         <div className="text-gray-600 text-sm">Jakarta</div>
                         <div className="text-gray-600 text-sm">Beginner</div>
                       </div>
-                      <div className="rounded-full bg-blue-400 text-white text-xs py-1 px-2 mr-2 inline-block">
-                        Fulltime
+                      <div className="w-full flex space-x-1">
+                      <button className="flex items-center justify-center bg-orange-500 text-white text-xs py-1 px-4 rounded-lg">
+                        Edit
+                      </button>
+                      <button className="flex items-center justify-center bg-red-500 text-white text-xs py-1 px-4 rounded-lg">
+                        Delete
+                      </button>
                       </div>
                     </div>
                   </Link>
