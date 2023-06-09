@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React, { ChangeEvent, useState } from 'react'
-import Navbar from '../../components/NavbarCompay'
+import Navbar from '../../components/NavbarCompany'
 
 export default function Profile() {
   const [tab, setTab] = useState(0)

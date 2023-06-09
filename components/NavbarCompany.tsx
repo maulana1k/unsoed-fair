@@ -25,7 +25,7 @@ export default function Navbar() {
           <Link href="/jobsCompany" className="text-gray-500 hover:text-violet-500">
             Jobs
           </Link>
-          <Link href="/internship" className="text-gray-500 hover:text-violet-500">
+          <Link href="/internCompany" className="text-gray-500 hover:text-violet-500">
             Internship
           </Link>
           <Link href="/sponsorship" className="text-gray-500 hover:text-violet-500">

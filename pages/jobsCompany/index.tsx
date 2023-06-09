@@ -6,6 +6,7 @@ import { useEffect, useState, useContext } from 'react'
 import { Menu } from '@headlessui/react'
 import { AppContext } from '@/lib/context'
 
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -46,7 +47,7 @@ export default function Home() {
               <Link href="/jobs" className="text-gray-300 hover:text-white">
                 Jobs
               </Link>
-              <Link href="/internship" className="text-gray-300 hover:text-white">
+              <Link href="/InternCompany" className="text-gray-300 hover:text-white">
                 Internship
               </Link>
               <Link href="/sponsorship" className="text-gray-300 hover:text-white">
