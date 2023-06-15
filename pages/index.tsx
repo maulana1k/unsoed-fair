@@ -187,11 +187,38 @@ function Jobs() {
   )
 }
 export default function Welcome() {
+  const [scrolled, setScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const ctx = useContext(AppContext)
+  console.log(ctx)
+
+  const changeNav = () => {
+    window.scrollY >= 90 ? setScrolled(true) : setScrolled(false)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', changeNav)
+    return () => {
+      window.removeEventListener('scroll', changeNav)
+    }
+  }, [])
+  const logout = () => {
+    ctx.destroyUser()
+    return Router.push('/login')
+  }
+  if (!ctx.loading) {
+    if (!ctx.user) {
+      Router.push('/login')
+      return
+    }
   return (
     <div id="__next" className='h-full bg-violet-700'>
       <main>
         <nav id="navbar-main" className='fixed top-0 z-[100] flex h-[76px] w-full bg-transparent px-4 transition-all duration-300 lg:px-8 bg-violet-700'>
           <div className='mx-auto flex w-full max-w-screen-laptop-lg items-center justify-between'>
+            <Link href="/" className={`text-white text-2xl font-bold`}>
+              <span className={scrolled ? 'text-violet-600' : ''}>UnsoedFair</span>
+            </Link>
             <div className='flex'>
               <a href="/">
                 <img src="#" alt="" />
@@ -212,7 +239,7 @@ export default function Welcome() {
                 </li>
               </ul>
             </div>
-            <ul className='navbar-menu-mobile flext items-center gap-1.5 kg:gap-0'>
+            <ul className='navbar-menu-mobile flex items-center gap-1 kg:gap-0' >
               <div className='header-menu-mobile mb-1 flex w-full items-center justify-between lg:mb-0'>
                 <a href="#" className='h-max'></a>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" className="iconify cursor-pointer text-xl text-[#BABABA] lg:hidden iconify iconify--ci" width="1em"  height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
@@ -234,16 +261,16 @@ export default function Welcome() {
               <li className='mb-0 w-full items-center text-center lg:mr-8 lg:hidden'>
                 <a href="#" className="flex w-full items-center justify-center py-[10px] text-sm font-medium leading-[18px] text-neutral-80 lg:p-0">For Employers</a>
               </li>
-              <li className='mb-0 w-full items-center text-center lg:mr-8 lg:hidden'>
-                <a href="#" className="flex w-full items-center justify-center py-[10px] text-sm font-medium leading-[18px] text-neutral-80 lg:p-0">Login</a>
+              <li className='mb-0 w-full items-center text-center lg:mr-1'>
+                <a href="/login" className="flex h-[38px] w-max items-center justify-center rounded-[84px] border border-solid border-tertiary-violet-60 bg-white px-[26px] text-xs font-bold leading-none text-[#6913D8] lg:border-white " >Login</a>
               </li>
               <li className='hidden lg:list-item'>
                 <a href="/register" className=" flex h-[38px] w-max items-center justify-center rounded-[84px] border border-solid border-tertiary-violet-60 bg-white px-[26px] text-xs font-bold leading-none text-[#6913D8] lg:border-white ">Sign Up</a>
               </li>
               <hr className="mt-2 mb-[18px] w-full border-t border-solid border-t-[#D0D1D3] lg:hidden"/>
               <div className='mb-1 flex w-full justify-center gap-4 lg:hidden'>
-                <a href="#" className='flex h-[36px] w-full max-w-[250px] items-center justify-center rounded-[84px] border border-solid border-[#6913D8] bg-white text-xs font-bold leading-none text-[#6913D8]'>Login</a>
-                <a href="#" className=" flex h-[36px] w-full max-w-[250px] items-center justify-center rounded-[84px] bg-[#6913D8] text-xs font-bold leading-none text-white ">Sign up</a>
+                <a href="/login" className='flex h-[36px] w-full max-w-[250px] items-center justify-center rounded-[84px] border border-solid border-[#6913D8] bg-white text-xs font-bold leading-none text-[#6913D8]'>Login</a>
+                <a href="/register" className=" flex h-[36px] w-full max-w-[250px] items-center justify-center rounded-[84px] bg-[#6913D8] text-xs font-bold leading-none text-white ">Sign up</a>
               </div>
             </ul>
             <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" className="iconify cursor-pointer text-2xl text-white lg:hidden iconify--eva custom-cursor-on-hover" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
@@ -264,7 +291,7 @@ export default function Welcome() {
             <div className='z-10'>
               <div className="flex flex-col items-center gap-[60px] lg:flex-row">
                 <div className='order-2 lg:order-1 lg:w-3/5'>
-                  <h1 className="z-10 w-full text-[28px] font-bold leading-[1.3] text-white lg:text-[50px] lg:leading-[1.35]" >
+                  <h1 className="z-10 w-full text-[28px] font-bold leading-[1.3] text-white lg:text-[50px] lg:leading-[1.35]">
                   Let 450+ Top Indonesian Companies Approach You
                   </h1>
                 </div>
@@ -272,7 +299,14 @@ export default function Welcome() {
             </div>
           </div>
         </header>
+        <section className='section py-[60px] lg:py-[120px] bg-white'>
+          <div className='section__content container text-center'></div>
+          <h2 className="sub-title m-auto w-auto leading-[1,3] text-[20px] lg:text-[34px] text-black flex items-center text-center" >
+            Terdapat <span className='text-primary'>500+ Perusahaan Menarik </span> Yang Menunggu
+          </h2>
+        </section>
       </main>
     </div>
   )
+}
 }
