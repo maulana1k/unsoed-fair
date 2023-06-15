@@ -286,7 +286,7 @@ export default function Welcome() {
             </svg>
           </div>
         </nav>
-        <header className="section relative z-[5] flex w-full items-center overflow-hidden overflow-x-hidden bg-header bg-cover md:bg-none md:bg-auto  Header_header__Zqwz_ h-[505px] sm:h-[470px] lg:h-[766px] bg-violet-700">
+        <header className="section relative z-[5] flex w-full items-center overflow-hidden overflow-x-hidden bg-header bg-cover md:bg-none md:bg-auto  Header_header__Zqwz_ h-[505px] sm:h-[470px] lg:h-[766px] bg-violet-700 min-h-screen">
           <div className="container px-4 lg:px-[60px] 2xl:px-[30px]">
             <div className='z-10'>
               <div className="flex flex-col items-center gap-[60px] lg:flex-row">
@@ -299,12 +299,6 @@ export default function Welcome() {
             </div>
           </div>
         </header>
-        <section className='section py-[60px] lg:py-[120px] bg-white'>
-          <div className='section__content container text-center'></div>
-          <h2 className="sub-title m-auto w-auto leading-[1,3] text-[20px] lg:text-[34px] text-black flex items-center text-center" >
-            Terdapat <span className='text-primary'>500+ Perusahaan Menarik </span> Yang Menunggu
-          </h2>
-        </section>
       </main>
     </div>
   )
