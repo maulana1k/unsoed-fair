@@ -17,6 +17,7 @@ export default function LoginCompany() {
       const result = await axios.post('/api/auth/login', { email, password, role: 'employer' })
       ctx.updateUser(result.data.user)
       Router.push('/jobsCompany')
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)

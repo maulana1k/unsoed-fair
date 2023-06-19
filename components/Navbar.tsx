@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const logout = () => {
     localStorage.removeItem('unsoed-fair')
-    Router.push('/login')
+    return Router.push('/login')
   }
 
   return (
@@ -60,6 +60,7 @@ export default function Navbar() {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    onClick={logout}
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
