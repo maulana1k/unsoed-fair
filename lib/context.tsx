@@ -29,7 +29,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }: Co
   useEffect(() => {
     // Read user data from localStorage
     const storedUser = localStorage.getItem('unsoedfair-user')
-    console.log('user ', storedUser)
+    // console.log('user ', storedUser)
 
     if (storedUser) {
       try {
