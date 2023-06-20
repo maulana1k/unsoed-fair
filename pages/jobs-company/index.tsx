@@ -49,7 +49,7 @@ export default function Home() {
               <Link href="/internCompany" className="text-gray-300 hover:text-white">
                 Internship
               </Link>
-              <Link href="/sponsorship" className="text-gray-300 hover:text-white">
+              <Link href="/sponsorCompany" className="text-gray-300 hover:text-white">
                 Sponsorship
               </Link>
             </div>

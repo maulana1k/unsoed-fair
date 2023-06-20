@@ -1,30 +1,35 @@
 import axios from 'axios'
 import Link from 'next/link'
 import Router from 'next/router'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
 
 export default function RegisterCompany() {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const loading = useRef<LoadingBarRef>(null)
 
   const handleSubmit = async (e: any) => {
+    loading.current?.continuousStart()
     e.preventDefault()
     try {
-      const result = await axios.post('/api/auth/register', { fullname, email, password, role: 'employer' })
+      const result = await axios.post('/api/auth/register-company', { fullname, email, password })
       localStorage.setItem('unsoedfair-user', JSON.stringify(result.data.user))
-      Router.push('/')
+      Router.push('/jobsCompany')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
       }
     }
+    loading.current?.complete()
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+      <LoadingBar ref={loading} />
       <div className="max-w-md w-full space-y-4">
         <div className="space-y-1">
           <h2 className="mt-6  text-xl font-bold text-gray-900">Join Our Portal</h2>
