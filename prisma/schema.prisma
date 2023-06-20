@@ -20,6 +20,7 @@ model User {
   joblisting JobListing[]
   savedJobs  SavedJobs[]
   profile    UserProfile?
+  Job        Job[]
 
   @@map("users")
 }
@@ -43,7 +44,6 @@ model Company {
   logo        String
   about       String
   employer    User   @relation(fields: [employerId], references: [id])
-  jobs        Job[]
 
   @@map("companies")
 }
@@ -54,9 +54,10 @@ model Job {
   location   String
   experience String
   type       String
-  companyId  String
+  userId     String
+  detail     String
   jobListing JobListing[]
-  company    Company      @relation(fields: [companyId], references: [id])
+  user       User         @relation(fields: [userId], references: [id])
   savedJobs  SavedJobs[]
 
   @@map("jobs")
