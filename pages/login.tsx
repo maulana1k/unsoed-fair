@@ -1,8 +1,9 @@
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import { FcGoogle } from 'react-icons/fc'
+import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
 
 import { AppContext } from '../lib/context'
 
@@ -11,13 +12,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const ctx = useContext(AppContext)
+  const loading = useRef<LoadingBarRef>(null)
 
   const handleSubmit = async (e: any) => {
+    loading.current?.continuousStart()
     e.preventDefault()
     try {
       const result = await axios.post('/api/auth/login', { email, password, role: 'user' })
-      // console.log('login ', result.data)
-
       ctx.updateUser(result.data.user)
       Router.push('/jobs')
     } catch (error) {
@@ -25,14 +26,18 @@ export default function LoginPage() {
         setError(error.response?.data)
       }
     }
+    loading.current?.complete()
   }
 
   if (!ctx.loading && ctx.user) {
-    Router.push('/jobs')
+    if (ctx.user.role === 'employer') Router.push('/jobs-company')
+    else Router.push('/jobs')
+    return
   }
   if (!ctx.loading) {
     return (
       <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+        <LoadingBar ref={loading} />
         <div className="max-w-sm w-full space-y-6">
           <div className="space-y-2">
             <h2 className="mt-6 text-xl font-bold text-gray-900">Sign In</h2>

@@ -1,37 +1,41 @@
 import axios from 'axios'
 import Link from 'next/link'
 import Router from 'next/router'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { AppContext } from '../lib/context'
+import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
 
 export default function LoginCompany() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const ctx = useContext(AppContext)
+  const loading = useRef<LoadingBarRef>(null)
 
   const handleSubmit = async (e: any) => {
+    loading.current?.continuousStart()
     e.preventDefault()
     try {
-      const result = await axios.post('/api/auth/login', { email, password, role: 'employer' })
+      const result = await axios.post('/api/auth/login', { email, password })
       ctx.updateUser(result.data.user)
-      Router.push('/jobsCompany')
-
+      Router.push('/jobs-company')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
       }
     }
+    loading.current?.complete()
   }
 
   if (!ctx.loading && ctx.user) {
-    Router.push('/jobsCompany')
+    Router.push('/jobs-company')
     return
   }
   if (!ctx.loading) {
     return (
       <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+        <LoadingBar ref={loading} />
         <div className="max-w-sm w-full space-y-6">
           <div className="space-y-2">
             <h2 className="mt-6 text-xl font-bold text-gray-900">Sign In</h2>
@@ -118,7 +122,7 @@ export default function LoginCompany() {
               </button>
               <div className="text-center text-xs ">
                 Don't have an account?{' '}
-                <Link className="text-violet-500 font-bold" href={'/register'}>
+                <Link className="text-violet-500 font-bold" href={'/register-company'}>
                   Sign Up
                 </Link>
               </div>

@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import Router, { useRouter } from 'next/router'
 import axios from 'axios'
 import Link from 'next/link'
 import { FcGoogle } from 'react-icons/fc'
 import { AppContext } from '../lib/context'
+import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
 
 export default function Register() {
   const [fullname, setFullname] = useState('')
@@ -11,22 +12,26 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const ctx = useContext(AppContext)
+  const loading = useRef<LoadingBarRef>(null)
 
   const handleSubmit = async (e: any) => {
+    loading.current?.continuousStart()
     e.preventDefault()
     try {
       const result = await axios.post('/api/auth/register', { fullname, email, password })
       ctx.updateUser(result.data.user)
-      Router.push('/')
+      Router.push('/jobs')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
       }
     }
+    loading.current?.complete()
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+      <LoadingBar ref={loading} />
       <div className="max-w-md w-full space-y-4">
         <div className="space-y-1">
           <h2 className="mt-6  text-xl font-bold text-gray-900">Create an account</h2>
