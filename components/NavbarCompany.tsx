@@ -1,11 +1,19 @@
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import Router from 'next/router'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import { AppContext } from '../lib/context'
+import { ICompany } from '../types/model'
 
 export default function SponsorCompany() {
   const [isOpen, setIsOpen] = useState(false)
-  // const menuRef = useRef<HTMLDivElement>(null)
+  const [profile, setProfile] = useState<ICompany>()
+  const ctx = useContext(AppContext)
+  useEffect(() => {
+    // (async () => {
+    //     const res = await
+    // })()
+  }, [ctx.loading])
 
   const logout = () => {
     localStorage.removeItem('unsoed-fair')
@@ -14,36 +22,25 @@ export default function SponsorCompany() {
 
   return (
     <div>
-      <nav
-        // ref={menuRef}
-        className="bg-white py-3 px-24 fixed w-full z-10 top-0 flex items-center justify-between  border-b border-gray-200 "
-      >
+      <nav className="bg-white py-3 px-24 fixed w-full z-10 top-0 flex items-center justify-between  border-b border-gray-200 ">
         <div className="flex space-x-8">
-          <Link href="/" className="text-orange-400 text-2xl font-bold stroke-violet-500 text" legacyBehavior>
-            Unsoed<span className={'text-violet-600'}>Fair</span>
+          <Link href="/">
+            <div className="text-violet-600 text-2xl font-bold stroke-violet-500 text">UnsoedFair</div>
           </Link>
           <div className="flex items-center space-x-4 ">
             <Link href="/jobs-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
               Jobs
             </Link>
-            <Link href="/intern-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
-              Internship
-            </Link>
-            <Link href="/sponsor-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
-              Sponsorship
-            </Link>
           </div>
         </div>
         <div className="relative">
           <Menu>
-            <Menu.Button>
-              <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
-                <img
-                  className="h-10 w-10 rounded-full object-cover"
-                  src="https://www.teknovidia.com/wp-content/uploads/2022/04/Logo-Shopee.jpg"
-                  alt="Avatar"
-                />
-              </button>
+            <Menu.Button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
+              <img
+                className="h-10 w-10 rounded-full object-cover"
+                alt="Avatar"
+                // src={ctx.user.}
+              />
             </Menu.Button>
 
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">

@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { email, password } = req.body
 
   try {
-    const user = await prisma.user.findUnique({ where: { email }, include: {} })
+    const user = await prisma.user.findUnique({ where: { email } })
 
     if (!user) {
       return res.status(400).send('User not registered')

@@ -7,15 +7,8 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import storage from '../../lib/firebase/storage'
 import { BiArrowBack, BiEdit, BiShow, BiX } from 'react-icons/bi'
 import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
-
-interface IProfile {
-  contact: string
-  cv: string
-  id: string
-  social: string
-  education: string
-  userId: string
-}
+import { ICompany, IProfile } from '../../types/model'
+import NavbarCompany from '../../components/NavbarCompany'
 
 export default function Profile() {
   const ctx = useContext(AppContext)
@@ -218,13 +211,6 @@ function UserProfile() {
   }
 }
 
-interface ICompany {
-  id: string
-  companyName: string
-  employerId: string
-  logo: string
-  about: string
-}
 export function CompanyProfile() {
   const [tab, setTab] = useState(0)
   const [isEdit, setIsEdit] = useState(false)
@@ -237,7 +223,6 @@ export function CompanyProfile() {
   })
   const loading = useRef<LoadingBarRef>(null)
   const ctx = useContext(AppContext)
-  console.log(profile)
 
   const formHandler = (label: string, val: string) => {
     let updated = { ...profile, [label]: val }
@@ -255,7 +240,6 @@ export function CompanyProfile() {
       if (ctx.user) {
         try {
           const result = await axios.get('/api/profile?userId=' + ctx.user?.id)
-          console.log('res', result)
           setProfile(result.data)
           setIsEdit(false)
         } catch (error) {
@@ -263,22 +247,18 @@ export function CompanyProfile() {
         }
       }
     })()
-  }, [])
+  }, [ctx.loading])
 
   return (
     <div className=" h-full">
       <LoadingBar ref={loading} />
-      <Navbar />
+      <NavbarCompany />
       <div className="max-w-[1200px] pt-24 mx-auto px-10">
         <div className="text-sm font-semibold text-gray-400">
           <Link href={'/jobs-company'} className="flex items-center space-x-3">
             <BiArrowBack /> <span>Back to Homepage</span>
           </Link>
-          <img
-            src={'http://mgt.unida.gontor.ac.id/wp-content/uploads/2021/09/1575050504675-logo-tokopedia-300x225.jpg'}
-            alt="Company Logo"
-            className="w-32 h-32 object-contain "
-          />
+          <img src={profile.logo} alt="Company Logo" className="w-32 h-32 object-contain " />
           {isEdit ? (
             <input
               type="text"

@@ -1,68 +1,67 @@
 import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
+import { IJob } from '../../types/model'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import NavbarCompany from '../../components/NavbarCompany'
 
 export default function JobDetail() {
+  const router = useRouter()
+  const { jobId } = router.query
+  const [job, setJob] = useState<IJob>()
   const [isOpen, setIsOpen] = useState(false)
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const result = await axios.get(`/api/job/${jobId}`)
+        setJob(result.data)
+      } catch (error) {
+        console.error('Error fetching job', error)
+      }
+    }
+
+    if (jobId) {
+      fetchJob()
+    }
+  }, [jobId])
 
   return (
-    <div className=" h-full">
-      <Navbar />
+    <div className="h-full">
+      <NavbarCompany />
       <div className="max-w-[1200px] pt-24 mx-auto">
         <div className="text-sm font-semibold text-gray-400">
           <Link href={'/'} className="flex items-center space-x-3">
             <BiArrowBack /> <span>Back to Homepage</span>
           </Link>
         </div>
-        <div className="mt-6">
-          <div className="my-6">
-            <img
-              src={'http://mgt.unida.gontor.ac.id/wp-content/uploads/2021/09/1575050504675-logo-tokopedia-300x225.jpg'}
-              alt="Company Logo"
-              className="w-24 h-24 rounded-full object-contain shadow-md"
-            />
-            <div className="text-xl mt-4 font-medium text-gray-700 hover:text-violet-800">
-              <Link href={'https://www.tokopedia.com/about/'}>Tokopedia</Link>
-            </div>
-            <div className="text-2xl font-bold ">Software Engineer Intern</div>
-          </div>
-          <div className="grid grid-cols-5 gap-10">
-            <div className="space-y-4 col-span-3 ">
-              <div>
-                <div className="text-md font-medium mb-2">Job Description</div>
-                <div className="bg-gray-50 text-sm border border-gray-200 rounded-lg p-4 whitespace-pre-line ">
-                  Memberikan saran financial kepada klien baik secara individual maupun secara perusahaan.{'\n'}Mampu
-                  memasarkan produk Allianz dengan baik dan benar. {'\n'}Mampu melayani Klien dengan baik, benar dan
-                  ramah Mampu memajukan visi misi perusahaan
-                </div>
+        {job && (
+          <div className="mt-6">
+            <div className="my-6">
+              <img
+                src={job.user.company.logo}
+                alt="Company Logo"
+                className="w-24 h-24 rounded-full object-contain shadow-md"
+              />
+              <div className="text-xl mt-4 font-medium text-gray-700 hover:text-violet-800">
+                {job.user.company.companyName}
               </div>
-              <div>
-                <div className="text-md font-medium mb-2">Requirements</div>
-                <div className="bg-gray-50 text-sm border border-gray-200 rounded-lg p-4 whitespace-pre-line ">
-                  Memberikan saran financial kepada klien baik secara individual maupun secara perusahaan.{'\n'}Mampu
-                  memasarkan produk Allianz dengan baik dan benar. {'\n'}Mampu melayani Klien dengan baik, benar dan
-                  ramah Mampu memajukan visi misi perusahaan
-                </div>
-              </div>
+              <div className="text-2xl font-bold ">{job.title}</div>
             </div>
-            <div className="col-span-2">
-              <div>
-                <div className="text-md font-medium mb-2">Apply</div>
-                <div className="bg-gray-50 text-sm border border-gray-200 rounded-lg p-4 space-y-4">
-                  <p>Prepare your best CV before applying</p>
-                  <button
-                    onClick={() => setIsOpen(true)}
-                    className="bg-violet-600 rounded-full py-3 text-white w-full font-bold hover:bg-violet-800 "
-                  >
-                    Apply Now
-                  </button>
+            <div className="grid grid-cols-5 gap-10">
+              <div className="space-y-4 col-span-3 ">
+                <div>
+                  <div className="text-md font-medium mb-2">Job Description</div>
+                  <div className="bg-gray-50 text-sm border border-gray-200 rounded-lg p-4 whitespace-pre-line ">
+                    {job.detail}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(!isOpen)}>

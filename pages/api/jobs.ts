@@ -6,8 +6,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       // Add your logic to fetch the data from the database or any other source
-      const jobs = await prisma.job.findMany()
-
+      const userId = req.query.userId as string
+      let jobs
+      if (userId) {
+        jobs = await prisma.job.findMany({
+          where: { userId },
+          include: {
+            user: {
+              include: {
+                company: {
+                  select: {
+                    companyName: true,
+                    logo: true,
+                  },
+                },
+              },
+            },
+          },
+        })
+      } else {
+        jobs = await prisma.job.findMany({
+          include: {
+            user: {
+              include: {
+                company: {
+                  select: {
+                    companyName: true,
+                    logo: true,
+                  },
+                },
+              },
+            },
+          },
+        })
+      }
       return res.status(200).json(jobs)
     } catch (error) {
       console.error('Error fetching jobs', error)
@@ -17,7 +49,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     try {
       const { title, location, experience, type, userId, detail } = req.body
-
       const job = await prisma.job.create({
         data: {
           title,

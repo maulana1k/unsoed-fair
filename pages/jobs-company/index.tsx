@@ -5,12 +5,14 @@ import Router from 'next/router'
 import { useEffect, useState, useContext } from 'react'
 import { Menu } from '@headlessui/react'
 import { AppContext } from '@/lib/context'
+import axios from 'axios'
+import { IJob } from '../../types/model'
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [jobs, setJobs] = useState<IJob[]>()
   const ctx = useContext(AppContext)
-  console.log(ctx)
 
   const changeNav = () => {
     window.scrollY >= 90 ? setScrolled(true) : setScrolled(false)
@@ -18,10 +20,18 @@ export default function Home() {
 
   useEffect(() => {
     window.addEventListener('scroll', changeNav)
+    if (ctx.user) {
+      ;(async () => {
+        const result = await axios.get('/api/jobs?userId=' + ctx.user?.id)
+        setJobs(result.data)
+        console.log(result)
+      })()
+    }
     return () => {
       window.removeEventListener('scroll', changeNav)
     }
-  }, [])
+  }, [ctx.loading])
+
   const logout = () => {
     ctx.destroyUser()
     return Router.push('/login-company')
@@ -43,7 +53,7 @@ export default function Home() {
               <span className={scrolled ? 'text-violet-600' : ''}>UnsoedFair</span>
             </Link>
             <div className="flex items-center space-x-4">
-              <Link href="/jobs" className="text-gray-300 hover:text-white">
+              <Link href="/jobs-company" className="text-gray-300 hover:text-white">
                 Jobs
               </Link>
               <Link href="/internCompany" className="text-gray-300 hover:text-white">
@@ -125,33 +135,24 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-3 gap-6  ">
-              {Array(5)
-                .fill(1)
-                .map((v, i) => (
-                  <Link href={'/jobs/' + v + i} key={v + i}>
+              {jobs &&
+                jobs.map((job, i) => (
+                  <Link href={'/jobs-company/' + job.id} key={job.id}>
                     <div className="rounded-lg shadow-md bg-white p-4 outline outline-1 outline-gray-200 hover:outline-violet-500">
                       <div className="flex items-center mb-4">
                         <img
-                          src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/qp8rxi2jae4uinry2dv7"
+                          src={job.user.company.logo}
                           alt="Company Logo"
                           className="w-10 h-10 rounded-full object-contain"
                         />
                         <div className="ml-3">
-                          <h2 className="text-md font-bold">Software Engineer</h2>
-                          <p className="text-gray-600 text-sm">PT. Shopee</p>
+                          <h2 className="text-md font-bold">{job.title}</h2>
+                          <p className="text-gray-600 text-sm">{job.user.company.companyName}</p>
                         </div>
                       </div>
                       <div className="flex flex-col mb-2">
-                        <div className="text-gray-600 text-sm">Jakarta</div>
-                        <div className="text-gray-600 text-sm">Beginner</div>
-                      </div>
-                      <div className="w-full flex space-x-1">
-                        <button className="flex items-center justify-center bg-orange-500 text-white text-xs py-1 px-4 rounded-lg">
-                          Edit
-                        </button>
-                        <button className="flex items-center justify-center bg-red-500 text-white text-xs py-1 px-4 rounded-lg">
-                          Delete
-                        </button>
+                        <div className="text-gray-600 text-sm">{job.location}</div>
+                        <div className="text-gray-600 text-sm">{job.experience}</div>
                       </div>
                     </div>
                   </Link>

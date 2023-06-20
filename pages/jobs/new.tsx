@@ -6,28 +6,21 @@ import Router from 'next/router'
 import { BiArrowBack } from 'react-icons/bi'
 import axios from 'axios'
 import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
-
-interface IJob {
-  title: string
-  location: string
-  experience: string
-  type: string
-  detail: string
-}
+import { IJob } from '../../types/model'
+import NavbarCompany from '../../components/NavbarCompany'
 
 export default function NewJob() {
   const ctx = useContext(AppContext)
   const [isOpen, setIsOpen] = useState(false)
   const loading = useRef<LoadingBarRef>(null)
-  const [jobs, setJobs] = useState<IJob>({
+  const [jobs, setJobs] = useState<Omit<IJob, 'user'>>({
+    id: '',
     title: '',
     location: '',
     experience: '',
     type: '',
     detail: '',
   })
-  console.log(jobs)
-
   const formHandler = (label: string, val: string) => {
     const update = { ...jobs, [label]: val }
     setJobs(update)
@@ -35,8 +28,8 @@ export default function NewJob() {
   const submitHandler = async () => {
     loading.current?.continuousStart()
     const result = await axios.post('/api/jobs', { ...jobs, userId: ctx.user?.id })
-    console.log(result)
     loading.current?.complete()
+    Router.push('/jobs-company')
   }
   if (!ctx.loading) {
     if (ctx.user !== null && ctx.user?.role !== 'employer') {
@@ -46,7 +39,7 @@ export default function NewJob() {
     return (
       <div className="container h-full">
         <LoadingBar ref={loading} />
-        <Navbar />
+        <NavbarCompany />
         <div className="max-w-[1200px] pt-24 mx-auto">
           <div className="text-sm font-semibold text-gray-400">
             <Link href={'/jobs-company'} className="flex items-center space-x-3">
@@ -144,7 +137,7 @@ export default function NewJob() {
                           type="radio"
                           id="new"
                           name="exp"
-                          value="new"
+                          value="New Entry"
                           className="hidden peer"
                           required
                           onChange={(e) => formHandler('experience', e.target.value)}
@@ -163,7 +156,7 @@ export default function NewJob() {
                           type="radio"
                           id="intermediate"
                           name="exp"
-                          value="intermediate"
+                          value="Intermediate"
                           className="hidden peer"
                           required
                           onChange={(e) => formHandler('experience', e.target.value)}
@@ -182,7 +175,7 @@ export default function NewJob() {
                           type="radio"
                           id="senior"
                           name="exp"
-                          value="senior"
+                          value="Senior"
                           className="hidden peer"
                           required
                           onChange={(e) => formHandler('experience', e.target.value)}

@@ -31,6 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const user = await prisma.user.findUnique({
         where: { id: userId },
       })
+
       if (user?.role === 'user') {
         const { education, social, contact, cv } = req.body
         profile = await prisma.userProfile.update({

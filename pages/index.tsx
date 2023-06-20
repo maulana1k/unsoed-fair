@@ -8,10 +8,7 @@ import { AppContext } from '../lib/context'
 
 export default function Welcome() {
   const [scrolled, setScrolled] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const ctx = useContext(AppContext)
-  console.log(ctx)
-
   const changeNav = () => {
     window.scrollY >= 90 ? setScrolled(true) : setScrolled(false)
   }
@@ -22,15 +19,8 @@ export default function Welcome() {
       window.removeEventListener('scroll', changeNav)
     }
   }, [])
-  const logout = () => {
-    ctx.destroyUser()
-    return Router.push('/login')
-  }
+
   if (!ctx.loading) {
-    if (!ctx.user) {
-      Router.push('/login')
-      return
-    }
     return (
       <div id="__next" className="h-full bg-violet-700">
         <main>
@@ -44,7 +34,7 @@ export default function Welcome() {
                   href="/try-now"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
                 >
-                  Sign up
+                  Try Now
                 </a>
                 <button
                   data-collapse-toggle="navbar-sticky"
