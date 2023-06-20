@@ -1,15 +1,17 @@
 import axios from 'axios'
 import Link from 'next/link'
 import Router from 'next/router'
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
+import { AppContext } from '../lib/context'
 
 export default function RegisterCompany() {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const ctx = useContext(AppContext)
   const loading = useRef<LoadingBarRef>(null)
 
   const handleSubmit = async (e: any) => {
@@ -17,8 +19,8 @@ export default function RegisterCompany() {
     e.preventDefault()
     try {
       const result = await axios.post('/api/auth/register-company', { fullname, email, password })
-      localStorage.setItem('unsoedfair-user', JSON.stringify(result.data.user))
-      Router.push('/jobsCompany')
+      ctx.updateUser(result.data.user)
+      Router.push('/jobs-company')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data)
