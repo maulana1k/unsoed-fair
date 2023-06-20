@@ -5,7 +5,7 @@ import axios from 'axios'
 import { AppContext } from '../../lib/context'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import storage from '../../lib/firebase/storage'
-import { BiEdit, BiShow } from 'react-icons/bi'
+import { BiArrowBack, BiEdit, BiShow, BiX } from 'react-icons/bi'
 import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar'
 
 interface IProfile {
@@ -18,6 +18,18 @@ interface IProfile {
 }
 
 export default function Profile() {
+  const ctx = useContext(AppContext)
+  if (!ctx.loading) {
+    if (ctx.user && ctx.user.role === 'user') {
+      return <UserProfile />
+    }
+    if (ctx.user && ctx.user.role === 'employer') {
+      return <CompanyProfile />
+    }
+  }
+}
+
+function UserProfile() {
   const ctx = useContext(AppContext)
   const [profile, setProfile] = useState<IProfile>({
     contact: '',
@@ -57,7 +69,7 @@ export default function Profile() {
       fileUrl = await getDownloadURL(uploaded.ref)
       setProfile({ ...profile, cv: fileUrl })
     }
-    const result = await axios.post('/api/profile', { ...profile, cv: fileUrl })
+    const result = await axios.post('/api/profile?userId=' + ctx.user?.id, { ...profile, cv: fileUrl })
     setProfile(result.data)
     loading.current?.complete()
   }
@@ -204,4 +216,136 @@ export default function Profile() {
       </div>
     )
   }
+}
+
+interface ICompany {
+  id: string
+  companyName: string
+  employerId: string
+  logo: string
+  about: string
+}
+export function CompanyProfile() {
+  const [tab, setTab] = useState(0)
+  const [isEdit, setIsEdit] = useState(false)
+  const [profile, setProfile] = useState<ICompany>({
+    id: '',
+    companyName: '',
+    employerId: '',
+    logo: '',
+    about: '',
+  })
+  const loading = useRef<LoadingBarRef>(null)
+  const ctx = useContext(AppContext)
+  console.log(profile)
+
+  const formHandler = (label: string, val: string) => {
+    let updated = { ...profile, [label]: val }
+    setProfile(updated)
+  }
+  const submitHandler = async () => {
+    loading.current?.continuousStart()
+    const result = await axios.post('/api/profile?userId=' + ctx.user?.id, { ...profile })
+    setProfile(result.data)
+    setIsEdit(false)
+    loading.current?.complete()
+  }
+  useEffect(() => {
+    ;(async () => {
+      if (ctx.user) {
+        try {
+          const result = await axios.get('/api/profile?userId=' + ctx.user?.id)
+          console.log('res', result)
+          setProfile(result.data)
+          setIsEdit(false)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    })()
+  }, [])
+
+  return (
+    <div className=" h-full">
+      <LoadingBar ref={loading} />
+      <Navbar />
+      <div className="max-w-[1200px] pt-24 mx-auto px-10">
+        <div className="text-sm font-semibold text-gray-400">
+          <Link href={'/jobs-company'} className="flex items-center space-x-3">
+            <BiArrowBack /> <span>Back to Homepage</span>
+          </Link>
+          <img
+            src={'http://mgt.unida.gontor.ac.id/wp-content/uploads/2021/09/1575050504675-logo-tokopedia-300x225.jpg'}
+            alt="Company Logo"
+            className="w-32 h-32 object-contain "
+          />
+          {isEdit ? (
+            <input
+              type="text"
+              id="name"
+              className="bg-gray-50 max-w-lg text-xl text-gray-600 border border-gray-100 rounded-lg px-3 py-1 outline-none focus:border-violet-500 hover:border-violet-500 "
+              onChange={(e) => formHandler('companyName', e.target.value)}
+              value={profile?.companyName}
+            />
+          ) : (
+            <div className="text-2xl text-gray-900">{profile?.companyName}</div>
+          )}
+          <div className="flex space-x-6 mt-2 items-center">
+            {['About', 'Jobs'].map((t, i) => (
+              <div
+                key={t}
+                onClick={() => setTab(i)}
+                className={`text-md  ${
+                  tab == i ? 'text-gray-800 font-bold border-b-2 border-gray-800' : 'text-gray-500'
+                } py-2 cursor-pointer`}
+              >
+                {t}
+              </div>
+            ))}
+            <div className="space-x-1 items-center flex">
+              <button
+                onClick={() => setIsEdit(true)}
+                className="text-gray-500 hover:text-green-500 hover:bg-gray-50 px-2 py-1 rounded-md"
+              >
+                <BiEdit size={24} />
+              </button>
+              {isEdit && (
+                <>
+                  <button
+                    onClick={() => setIsEdit(false)}
+                    className="text-gray-500 hover:text-red-500 hover:bg-gray-50 px-2 py-1 rounded-md"
+                  >
+                    <BiX size={24} />
+                  </button>
+                  <button
+                    onClick={submitHandler}
+                    className="text-gray-500 hover:text-green-500 hover:bg-gray-50 px-2 py-1 rounded-md"
+                  >
+                    Save
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+          {tab == 0 &&
+            (isEdit ? (
+              <div>
+                <textarea
+                  name="about"
+                  id="about"
+                  cols={70}
+                  onChange={(e) => formHandler('about', e.target.value)}
+                  className="max-w-3xl rounded-lg mt-4 text-sm font-normal text-gray-700  bg-gray-50 border-gray-100 p-4"
+                  value={profile?.about}
+                ></textarea>
+              </div>
+            ) : (
+              <div className="max-w-3xl rounded-lg mt-4 text-sm font-normal text-gray-700  bg-gray-50 border-gray-100 p-4">
+                {profile?.about}
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  )
 }

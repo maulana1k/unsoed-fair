@@ -32,7 +32,7 @@ export default function Home() {
       return
     }
     return (
-      <div className="container h-full bg-violet-700">
+      <div className="h-full bg-violet-700">
         <nav
           className={`${
             scrolled ? 'bg-white shadow-md' : 'bg-violet-700'
@@ -56,21 +56,19 @@ export default function Home() {
           </div>
           <div className="relative">
             <Menu>
-              <Menu.Button>
-                <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
-                  <img
-                    className="h-10 w-10 rounded-full object-cover"
-                    src="https://www.teknovidia.com/wp-content/uploads/2022/04/Logo-Shopee.jpg"
-                    alt="Avatar"
-                  />
-                </button>
+              <Menu.Button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
+                <img
+                  className="h-10 w-10 rounded-full object-cover"
+                  src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/qp8rxi2jae4uinry2dv7"
+                  alt="Avatar"
+                />
               </Menu.Button>
 
               <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href={'/profileCompany'}>
+                      <Link href={'/profile'}>
                         <button
                           className={`${
                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
@@ -134,7 +132,7 @@ export default function Home() {
                     <div className="rounded-lg shadow-md bg-white p-4 outline outline-1 outline-gray-200 hover:outline-violet-500">
                       <div className="flex items-center mb-4">
                         <img
-                          src={'https://www.teknovidia.com/wp-content/uploads/2022/04/Logo-Shopee.jpg'}
+                          src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/qp8rxi2jae4uinry2dv7"
                           alt="Company Logo"
                           className="w-10 h-10 rounded-full object-contain"
                         />
