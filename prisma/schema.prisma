@@ -1,47 +1,85 @@
-// schema.prisma
-
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model User {
-    id        String   @id @default(cuid())
-    fullname  String
-    email     String   @unique
-    password  String
-    role      String   @default("user")
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id         String       @id @default(cuid())
+  email      String       @unique
+  password   String
+  fullname   String
+  role       String
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  company    Company?
+  joblisting JobListing[]
+  savedJobs  SavedJobs[]
+  profile    UserProfile?
 
-    @@map(name: "users")
+  @@map("users")
 }
 
-model Job {
-    id         String  @id @default(cuid())
-    title      String
-    location   String
-    experience String
-    type       String
-    companyId  String
-    company    Company @relation(fields: [companyId], references: [id])
+model UserProfile {
+  id        String @id @default(cuid())
+  userId    String @unique
+  education String
+  social    String
+  contact   String
+  cv        String
+  user      User   @relation(fields: [userId], references: [id])
 
-    @@map(name: "jobs")
+  @@map("user_profile")
 }
 
 model Company {
-    id       String @id @default(cuid())
-    fullname String @unique
-    email    String @unique
-    password String
-    logo     String
-    location String
-    jobs     Job[]
+  id          String @id @default(cuid())
+  companyName String
+  employerId  String @unique
+  logo        String
+  about       String
+  employer    User   @relation(fields: [employerId], references: [id])
+  jobs        Job[]
 
-    @@map(name: "companies")
+  @@map("companies")
+}
+
+model Job {
+  id         String       @id @default(cuid())
+  title      String
+  location   String
+  experience String
+  type       String
+  companyId  String
+  jobListing JobListing[]
+  company    Company      @relation(fields: [companyId], references: [id])
+  savedJobs  SavedJobs[]
+
+  @@map("jobs")
+}
+
+model JobListing {
+  id     String @id @default(cuid())
+  jobId  String
+  userId String
+  email  String
+  cv     String
+  job    Job    @relation(fields: [jobId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("joblisting")
+}
+
+model SavedJobs {
+  id     String @id @default(cuid())
+  userId String
+  jobId  String
+  job    Job    @relation(fields: [jobId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("saved_jobs")
 }
