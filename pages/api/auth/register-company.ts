@@ -23,13 +23,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fullname,
         email,
         password: hashedPassword,
-        role: 'user',
-        profile: {
+        role: 'employer',
+        company: {
           create: {
-            education: '',
-            social: '',
-            contact: '',
-            cv: '',
+            logo: '',
+            companyName: 'Company name',
+            about: 'Company about',
           },
         },
       },

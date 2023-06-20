@@ -7,16 +7,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { email, password, role } = req.body
+  const { email, password } = req.body
 
   try {
-    let user
-    if (role === 'user') {
-      user = await prisma.user.findUnique({ where: { email } })
-    }
-    if (role === 'employer') {
-      user = await prisma.company.findUnique({ where: { email } })
-    }
+    const user = await prisma.user.findUnique({ where: { email }, include: {} })
+
     if (!user) {
       return res.status(400).send('User not registered')
     }
