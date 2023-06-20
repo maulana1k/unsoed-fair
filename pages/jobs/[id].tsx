@@ -2,16 +2,19 @@ import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
+import { BiArrowBack } from 'react-icons/bi'
 
 export default function JobDetail() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="container h-full">
+    <div className=" h-full">
       <Navbar />
       <div className="max-w-[1200px] pt-24 mx-auto">
         <div className="text-sm font-semibold text-gray-400">
-          <Link href={'/'}>Back to Homepage</Link>
+          <Link href={'/'} className="flex items-center space-x-3">
+            <BiArrowBack /> <span>Back to Homepage</span>
+          </Link>
         </div>
         <div className="mt-6">
           <div className="my-6">

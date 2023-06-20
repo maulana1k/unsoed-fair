@@ -23,7 +23,7 @@ export default function Home() {
   }, [])
   const logout = () => {
     ctx.destroyUser()
-    return Router.push('/login')
+    return Router.push('/try-now')
   }
   if (!ctx.loading) {
     if (!ctx.user) {

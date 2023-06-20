@@ -9,7 +9,7 @@ export default function SponsorCompany() {
 
   const logout = () => {
     localStorage.removeItem('unsoed-fair')
-    Router.push('/login')
+    Router.push('/try-now')
   }
 
   return (
@@ -23,13 +23,13 @@ export default function SponsorCompany() {
             Unsoed<span className={'text-violet-600'}>Fair</span>
           </Link>
           <div className="flex items-center space-x-4 ">
-            <Link href="/jobsCompany" className="text-gray-500 hover:text-violet-500" legacyBehavior>
+            <Link href="/jobs-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
               Jobs
             </Link>
-            <Link href="/internCompany" className="text-gray-500 hover:text-violet-500" legacyBehavior>
+            <Link href="/intern-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
               Internship
             </Link>
-            <Link href="/sponsorCompany" className="text-gray-500 hover:text-violet-500" legacyBehavior>
+            <Link href="/sponsor-company" className="text-gray-500 hover:text-violet-500" legacyBehavior>
               Sponsorship
             </Link>
           </div>
@@ -78,9 +78,7 @@ export default function SponsorCompany() {
           </Menu>
         </div>
       </nav>
-      <div>
-        {/* Your sponsor company page content goes here */}
-      </div>
+      <div>{/* Your sponsor company page content goes here */}</div>
     </div>
   )
 }

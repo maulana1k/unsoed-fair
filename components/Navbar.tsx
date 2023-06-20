@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const logout = () => {
     localStorage.removeItem('unsoed-fair')
-    return Router.push('/login')
+    return Router.push('/try-now')
   }
 
   return (
@@ -18,8 +18,8 @@ export default function Navbar() {
       className="bg-white py-3 px-24 fixed w-full z-10 top-0 flex items-center justify-between  border-b border-gray-200 "
     >
       <div className="flex space-x-8">
-        <Link href="/" className="text-orange-400 text-2xl font-bold stroke-violet-500 text">
-          Unsoed<span className={'text-violet-600'}>Fair</span>
+        <Link href="/" className="text-violet-600 text-2xl font-bold stroke-violet-500 text">
+          UnsoedFair
         </Link>
         <div className="flex items-center space-x-4 ">
           <Link href="/jobs" className="text-gray-500 hover:text-violet-500">
