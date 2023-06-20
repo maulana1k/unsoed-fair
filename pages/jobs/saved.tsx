@@ -6,7 +6,7 @@ import { useEffect, useState, useContext } from 'react'
 import { Menu } from '@headlessui/react'
 import { AppContext } from '@/lib/context'
 
-export default function Home() {
+export default function Saved() {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const ctx = useContext(AppContext)
@@ -45,12 +45,14 @@ export default function Home() {
           </div>
           <div className="relative">
             <Menu>
-              <Menu.Button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
-                <img
-                  className="h-10 w-10 rounded-full object-cover"
-                  src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=900&t=st=1685117281~exp=1685117881~hmac=d6f13693c4cba098e4dc2d5239e6a23143a81a995da9401e3883a958876c5316"
-                  alt="Avatar"
-                />
+              <Menu.Button>
+                <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
+                  <img
+                    className="h-10 w-10 rounded-full object-cover"
+                    src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=900&t=st=1685117281~exp=1685117881~hmac=d6f13693c4cba098e4dc2d5239e6a23143a81a995da9401e3883a958876c5316"
+                    alt="Avatar"
+                  />
+                </button>
               </Menu.Button>
 
               <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
